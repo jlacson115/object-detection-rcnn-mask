@@ -1,0 +1,39 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: predict-mask-rcnn
+  labels:
+    app: myimage
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: myimage
+  template:
+    metadata:
+      labels:
+        app: myimage
+    spec:
+      containers:
+      - name: myimage
+        image: tensorflow/tensorflow:latest-devel-py3
+        command: ["/bin/sh", "-c"]
+        args:
+         - cd /Mask_RCNN;
+           cd cocoapi/PythonAPI;
+           make;
+           make install;
+           python setup.py install;
+           cd ../..;
+           pip install -r requirements.txt;
+           python server.py;
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /Mask_RCNN
+          name: test-volume
+      volumes:
+      - name: test-volume
+        hostPath:
+          # directory location on host
+          path: /Users/jessica/git/Mask_RCNN
