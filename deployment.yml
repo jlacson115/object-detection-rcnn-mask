@@ -19,7 +19,8 @@ spec:
         image: tensorflow/tensorflow:latest-devel-py3
         command: ["/bin/sh", "-c"]
         args:
-         - cd /Mask_RCNN;
+         - git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/object-detection-rcnn-mask;
+           cd /object-detection-rcnn-mask/Mask_RCNN;
            cd cocoapi/PythonAPI;
            make;
            make install;
@@ -29,11 +30,3 @@ spec:
            python server.py;
         ports:
         - containerPort: 8080
-        volumeMounts:
-        - mountPath: /Mask_RCNN
-          name: test-volume
-      volumes:
-      - name: test-volume
-        hostPath:
-          # directory location on host
-          path: /Users/jessica/git/Mask_RCNN
