@@ -19,7 +19,7 @@ spec:
         image: tensorflow/tensorflow:latest-devel-py3
         command: ["/bin/sh", "-c"]
         args:
-         - git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/object-detection-rcnn-mask;
+         - git clone https://github.com/jlacson115/object-detection-rcnn-mask.git;
            cd /object-detection-rcnn-mask/Mask_RCNN;
            cd cocoapi/PythonAPI;
            make;
