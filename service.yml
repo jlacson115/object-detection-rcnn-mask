@@ -3,11 +3,12 @@ kind: Service
 metadata:
   name: predict-mask-rcnn-service
   labels:
-    app: mask-rcnn-server
+    app: myimage
 spec:
   ports:
     - port: 80
+      targetPort: 80
       protocol: TCP
   selector:
-    app: mask-rcnn-server
+    app: myimage
   type: LoadBalancer

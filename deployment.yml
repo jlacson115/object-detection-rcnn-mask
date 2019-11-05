@@ -17,16 +17,22 @@ spec:
       containers:
       - name: myimage
         image: tensorflow/tensorflow:latest-devel-py3
-        command: ["/bin/sh", "-c"]
+        command: ["/bin/bash", "-ec"]
         args:
-         - git clone https://github.com/jlacson115/object-detection-rcnn-mask.git;
+         - echo 'hello, there...'; sleep 1; echo 'hello, there...'; sleep 1; echo 'not exiting with status 0, cloning instead';
+           echo 'cloning mask rcnn'; 
+           git clone https://github.com/jlacson115/object-detection-rcnn-mask.git;
+           echo 'done cloning'; 
            cd /object-detection-rcnn-mask/Mask_RCNN;
+           pip install -r requirements.txt;
+           cd ../..; 
+           git clone https://github.com/cocodataset/cocoapi.git;        
+           echo 'done cloning cocoapi';    
            cd cocoapi/PythonAPI;
            make;
            make install;
            python setup.py install;
-           cd ../..;
-           pip install -r requirements.txt;
+           cd /object-detection-rcnn-mask/Mask_RCNN; 
            python server.py;
         ports:
-        - containerPort: 8080
+        - containerPort: 80
