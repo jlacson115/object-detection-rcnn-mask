@@ -8,7 +8,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("/Mask_RCNN/")
+ROOT_DIR = os.path.abspath("/object-detection-rcnn-mask/Mask_RCNN/")
 
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
