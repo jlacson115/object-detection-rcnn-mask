@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, send_file
-from flask.ext.cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 from PIL import Image
 import io
 import predict
