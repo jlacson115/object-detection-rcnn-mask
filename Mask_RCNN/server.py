@@ -20,8 +20,8 @@ def run():
     input_params = data['input']
     file_object = predict.predict(input_params)
     imgFilename = input_params[input_params.rfind("/")+1:]
-    imgFilename.replace("jpeg", "png")
-    imgFilename.replace("jpg", "png")
+    imgFilename = imgFilename.replace("jpeg", "png")
+    imgFilename = imgFilename.replace("jpg", "png")
     
     s3 = boto3.resource("s3")
     object = s3.Object(PUBLIC_BUCKET, imgFilename)
