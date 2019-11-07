@@ -27,7 +27,7 @@ def run():
     s3Url = "https://object-detect-image-website.s3.us-east-2.amazonaws.com/image.png"
     
     data = {
-        detectedUrl = s3Url
+        "detectedUrl" : s3Url
     }
 
     #return send_file(file_object, mimetype='application/json')
