@@ -19,12 +19,16 @@ def run():
     data = request.get_json(force=True)
     input_params = data['input']
     file_object = predict.predict(input_params)
+    imgFilename = input_params[input_params.rfind("/")+1:]
+    imgFilename.replace("jpeg", "png")
+    imgFilename.replace("jpg", "png")
     
     s3 = boto3.resource("s3")
-    object = s3.Object(PUBLIC_BUCKET, 'image.png')
+    object = s3.Object(PUBLIC_BUCKET, imgFilename)
     object.upload_fileobj(file_object)
     
-    s3Url = "https://object-detect-image-website.s3.us-east-2.amazonaws.com/image.png"
+    
+    s3Url = "https://"+ PUBLIC_BUCKET +".s3.us-east-2.amazonaws.com/" + imgFilename
     
     data = {
         "detectedUrl" : s3Url
