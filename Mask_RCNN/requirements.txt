@@ -12,3 +12,4 @@ imgaug
 IPython[all]
 flask
 flask-cors
+boto3

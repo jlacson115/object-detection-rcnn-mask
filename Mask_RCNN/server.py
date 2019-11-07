@@ -3,6 +3,9 @@ from flask_cors import CORS, cross_origin
 from PIL import Image
 import io
 import predict
+import boto3
+
+PUBLIC_BUCKET = "object-detect-image-website"
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
@@ -16,6 +19,10 @@ def run():
     data = request.get_json(force=True)
     input_params = data['input']
     file_object = predict.predict(input_params)
+    
+    s3 = boto3.resource("s3")
+    object = s3.Object(PUBLIC_BUCKET, 'image.png')
+    object.upload_fileobj(file_object)
 
     return send_file(file_object, mimetype='image/PNG')
     
