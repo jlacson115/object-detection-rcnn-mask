@@ -23,8 +23,15 @@ def run():
     s3 = boto3.resource("s3")
     object = s3.Object(PUBLIC_BUCKET, 'image.png')
     object.upload_fileobj(file_object)
+    
+    s3Url = "https://object-detect-image-website.s3.us-east-2.amazonaws.com/image.png"
+    
+    data = {
+        detectedUrl = s3Url
+    }
 
-    return send_file(file_object, mimetype='image/PNG')
+    #return send_file(file_object, mimetype='application/json')
+    return data;
     
 @app.route('/hello', methods=['GET'])
 def hi():
