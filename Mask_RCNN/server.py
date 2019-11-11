@@ -6,6 +6,7 @@ import predict
 import boto3
 
 PUBLIC_BUCKET = "object-detect-image-website"
+PUBLIC_FOLDER = "detections/"
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
@@ -24,11 +25,11 @@ def run():
     imgFilename = imgFilename.replace("jpg", "png")
     
     s3 = boto3.resource("s3")
-    object = s3.Object(PUBLIC_BUCKET, imgFilename)
+    object = s3.Object(PUBLIC_BUCKET, PUBLIC_FOLDER + imgFilename)
     object.upload_fileobj(file_object)
     
     
-    s3Url = "https://"+ PUBLIC_BUCKET +".s3.us-east-2.amazonaws.com/" + imgFilename
+    s3Url = "https://"+ PUBLIC_BUCKET +".s3.us-east-2.amazonaws.com/" +  PUBLIC_FOLDER + imgFilename
     
     data = {
         "detectedUrl" : s3Url
