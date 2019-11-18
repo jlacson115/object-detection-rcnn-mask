@@ -20,16 +20,27 @@ def run():
     data = request.get_json(force=True)
     input_params = data['input']
     file_object = predict.predict(input_params)
-    imgFilename = input_params[input_params.rfind("/")+1:]
-    imgFilename = imgFilename.replace("jpeg", "png")
-    imgFilename = imgFilename.replace("jpg", "png")
+    
+    # video frames are output to /detections/REQ_ID/frame.jpg
+    # uploaded images are output to /uploads/IMAGE.jpg
+    
+    if input_params.find("/detections/") < 0 :
+        # it's an image
+        imgFilename = input_params[input_params.rfind("/")+1:]
+        imgFilename = imgFilename.replace("jpeg", "png")
+        imgFilename = imgFilename.replace("jpg", "png")
+        out_filename = PUBLIC_FOLDER + imgFilename
+    else:
+    	# its a video
+    	frameFilename = input_params[input_params.find("/detections/"):]
+        frameFilename = frameFilename.replace("jpg", "png")
+        out_filename = frameFilename
     
     s3 = boto3.resource("s3")
-    object = s3.Object(PUBLIC_BUCKET, PUBLIC_FOLDER + imgFilename)
+    object = s3.Object(PUBLIC_BUCKET, out_filename)
     object.upload_fileobj(file_object)
     
-    
-    s3Url = "https://"+ PUBLIC_BUCKET +".s3.us-east-2.amazonaws.com/" +  PUBLIC_FOLDER + imgFilename
+    s3Url = "https://"+ PUBLIC_BUCKET +".s3.us-east-2.amazonaws.com/" +  out_filename
     
     data = {
         "detectedUrl" : s3Url
