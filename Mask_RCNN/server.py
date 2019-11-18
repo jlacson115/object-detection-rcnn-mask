@@ -31,8 +31,8 @@ def run():
         imgFilename = imgFilename.replace("jpg", "png")
         out_filename = PUBLIC_FOLDER + imgFilename
     else:
-    	# its a video
-    	frameFilename = input_params[input_params.find("/detections/"):]
+        # its a video
+        frameFilename = input_params[input_params.find("/detections/"):]
         frameFilename = frameFilename.replace("jpg", "png")
         out_filename = frameFilename
     
