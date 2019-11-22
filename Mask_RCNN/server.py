@@ -38,7 +38,7 @@ def run():
     
     s3 = boto3.resource("s3")
     object = s3.Object(PUBLIC_BUCKET, out_filename)
-    object.upload_fileobj(file_object, ExtraArgs={ "ContentType": "image/png"})
+    object.upload_fileobj(file_object, ExtraArgs={'ContentType': 'image/png'})
 
     
     s3Url = "https://"+ PUBLIC_BUCKET +".s3.us-east-2.amazonaws.com/" +  out_filename
