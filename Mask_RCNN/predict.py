@@ -5,10 +5,14 @@ import math
 import numpy as np
 import skimage.io
 import matplotlib
+matplotlib.use("agg")
 import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow.python.keras.backend import set_session
+
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("/object-detection-rcnn-mask/Mask_RCNN/")
+ROOT_DIR = os.path.abspath("/home/jesssboxer/object-detection-rcnn-mask/Mask_RCNN/")
 
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
@@ -41,6 +45,10 @@ class InferenceConfig(coco.CocoConfig):
 config = InferenceConfig()
 
 
+sess = tf.Session()
+graph = tf.get_default_graph()
+set_session(sess)
+
 # Create model object in inference mode.
 model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
 
@@ -66,8 +74,12 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 def predict(imgurl):
     image = skimage.io.imread(imgurl)
 
+    global sess
+    global graph
     # Run detection
-    results = model.detect([image], verbose=1)
+    with graph.as_default():
+        set_session(sess)
+        results = model.detect([image], verbose=1)
 
     # Visualize results
     r = results[0]
